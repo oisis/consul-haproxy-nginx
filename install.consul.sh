@@ -70,6 +70,7 @@ if [[ `hostname` == "lb" ]]; then
   mkdir -p /root/haproxy/
   mkdir -p /root/consul-template
   cp /vagrant/provision/haproxy.ctmpl /root/haproxy/
+  cp /vagrant/provision/haproxy.cfg /root/haproxy/
   cp /vagrant/provision/consul-template.hcl /root/consul-template/
   /usr/bin/consul-template -config /root/consul-template/consul-template.hcl 2>&1 >/dev/null &
   docker run -d --name haproxy -p 80:80 -p 1936:1936 --restart unless-stopped \
