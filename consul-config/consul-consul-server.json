@@ -1,0 +1,16 @@
+{
+  "ui": true,
+  "bootstrap": true,
+  "datacenter": "vbox1",
+  "data_dir": "/tmp/consul",
+  "log_level": "INFO",
+  "node_name": "consul-server",
+  "server": true,
+  "encrypt": "iFfOAlZuCafYotVi5dpcVA==",
+  "start_join": ["172.20.20.31"],
+  "client_addr": "0.0.0.0",
+  "advertise_addr": "172.20.20.31",
+  "addresses": {
+    "http": "0.0.0.0"
+  }
+}

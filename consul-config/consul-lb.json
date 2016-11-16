@@ -1,0 +1,36 @@
+{
+  "retry_join": ["172.20.20.31"],
+  "data_dir": "/tmp/consul",
+  "client_addr": "0.0.0.0",
+  "encrypt": "iFfOAlZuCafYotVi5dpcVA==",
+  "advertise_addr": "172.20.20.11",
+  "datacenter": "vbox1",
+  "service": {
+    "name": "lb",
+    "port": 80,
+    "check": {
+      "http": "http://localhost",
+      "interval": "10s"
+    }
+  },
+  "checks": [
+    {
+      "id": "check_cpu_utilization",
+      "name": "CPU Utilization",
+      "script": "/root/consul-checks/cpu_utilization.sh",
+      "interval": "10s"
+    },
+    {
+      "id": "check_mem_utilization",
+      "name": "MEM Utilization",
+      "script": "/root/consul-checks/mem_utilization.sh",
+      "interval": "10s"
+    },
+    {
+      "id": "check_hdd_utilization",
+      "name": "HDD Utilization",
+      "script": "/root/consul-checks/hdd_utilization.sh",
+      "interval": "10s"
+    }
+  ]
+}
