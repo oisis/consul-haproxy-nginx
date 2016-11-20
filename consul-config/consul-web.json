@@ -5,14 +5,36 @@
   "encrypt": "iFfOAlZuCafYotVi5dpcVA==",
   "advertise_addr": "IPADDRESS",
   "datacenter": "vbox1",
-  "service": {
-    "name": "web",
-    "port": 8080,
-    "check": {
-      "http": "http://localhost:8080",
-      "interval": "10s"
+  "services": [
+    {
+      "id": "http",
+      "name": "http",
+      "tags": [
+        "apka1",
+        "java",
+        "http"
+      ],
+      "port": 8080,
+      "check": {
+        "http": "http://localhost:8080",
+        "interval": "10s"
+      }
+    },
+    {
+      "id": "https",
+      "name": "https",
+      "tags": [
+        "apka2",
+        "https",
+        "php"
+      ],
+      "port": 443,
+      "check": {
+        "https": "https://localhost:443",
+        "interval": "10s"
+      }
     }
-  },
+  ],
   "checks": [
     {
       "id": "check_cpu_utilization",
