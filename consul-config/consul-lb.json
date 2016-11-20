@@ -3,7 +3,7 @@
   "data_dir": "/tmp/consul",
   "client_addr": "0.0.0.0",
   "encrypt": "iFfOAlZuCafYotVi5dpcVA==",
-  "advertise_addr": "172.20.20.11",
+  "advertise_addr": "IPADDRESS",
   "datacenter": "vbox1",
   "services": [
     {
