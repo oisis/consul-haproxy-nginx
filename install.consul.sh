@@ -41,6 +41,12 @@ else
     HOSTNAME=`hostname`
 fi
 
+if [[ `hostname` == "lb"* ]]; then
+    HOSTNAME="lb"
+else
+    HOSTNAME=`hostname`
+fi
+
 # Make dir for configuration
 mkdir -p /root/consul
 
@@ -86,6 +92,21 @@ if [[ `hostname` == "lb" ]]; then
   /usr/bin/curl -X PUT -d 'enable' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/stats
   /usr/bin/curl -X PUT -d '5s' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/refresh
   /usr/bin/curl -X PUT -d '/' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/uri
+fi
+
+# Setup LoadBalancer Nginx
+if [[ `hostname` == "lbn" ]]; then
+  mkdir -p /root/nginx/
+  mkdir -p /root/consul-template
+  cp /vagrant/provision/nginx.ctmpl /root/nginx/
+  cp /vagrant/provision/nginx.conf /root/nginx/
+  cp /vagrant/provision/consul-template-nginx.hcl /root/consul-template/
+  openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /root/nginx/nginx.key \
+    -out /root/nginx/nginx.crt -subj "/C=PL/ST=Mazowieckie/L=Warszawa/O=COMEORG/OU=IT/CN=172.20.20.12"
+  /usr/bin/consul-template -config /root/consul-template/consul-template-nginx.hcl 2>&1 >/dev/null &
+  docker run -d --name nginx -p 80:80 -p 443:443 --restart unless-stopped \
+    -v /root/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro -v /root/nginx/nginx.key:/etc/nginx/nginx.key:ro \
+    -v /root/nginx/nginx.crt:/etc/nginx/nginx.crt:ro nginx:stable-alpine
 fi
 
 # Run consul
