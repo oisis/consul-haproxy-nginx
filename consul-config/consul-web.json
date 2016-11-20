@@ -6,10 +6,14 @@
   "advertise_addr": "IPADDRESS",
   "datacenter": "vbox1",
   "service": {
-    "name": "lb",
+    "name": "http",
+    "tags": [
+      "http",
+      "java"
+    ],
     "port": 8080,
     "check": {
-      "http": "http://localhost",
+      "http": "http://localhost:8080",
       "interval": "10s"
     }
   },
