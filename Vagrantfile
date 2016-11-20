@@ -12,6 +12,11 @@ Vagrant.configure("2") do |config|
     lb.vm.network "private_network", ip: "172.20.20.11"
   end
 
+  config.vm.define "lbn" do |lb|
+    lb.vm.hostname = "lbn"
+    lb.vm.network "private_network", ip: "172.20.20.12"
+  end
+
   (1..3).each do |i|
     config.vm.define "web#{i}" do |web|
       web.vm.hostname = "web#{i}"
