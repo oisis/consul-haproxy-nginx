@@ -65,16 +65,20 @@ if [[ `hostname` == "web"* ]]; then
       -v /root/html/ip.html:/usr/share/nginx/html/ip.html:ro nginx
 fi
 
-# Setup LoadBalancer
+# Setup LoadBalancer HAProxy
 if [[ `hostname` == "lb" ]]; then
   mkdir -p /root/haproxy/
   mkdir -p /root/consul-template
   cp /vagrant/provision/haproxy.ctmpl /root/haproxy/
   cp /vagrant/provision/haproxy.cfg /root/haproxy/
   cp /vagrant/provision/consul-template.hcl /root/consul-template/
+  openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /root/haproxy/haproxy.key \
+  -out /root/haproxy/haproxy.crt -subj "/C=PL/ST=Mazowieckie/L=Warszawa/O=COMEORG/OU=IT/CN=172.20.20.11"
+  cat /root/haproxy/haproxy.crt /root/haproxy/haproxy.key > /root/haproxy/haproxy.pem
   /usr/bin/consul-template -config /root/consul-template/consul-template.hcl 2>&1 >/dev/null &
-  docker run -d --name haproxy -p 80:80 -p 1936:1936 --restart unless-stopped \
-    -v /root/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro haproxy:1.6.9-alpine
+  docker run -d --name haproxy -p 80:80 -p 1936:1936 -p 443:443 --restart unless-stopped \
+    -v /root/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro \
+    -v /root/haproxy/haproxy.pem:/usr/local/etc/haproxy/cert.pem:ro haproxy:1.6.9-alpine
 fi
 
 # Run consul
