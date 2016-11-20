@@ -35,14 +35,11 @@ rm -f consul-template.zip
 
 #Lets copy config files and run consul:
 IP=$(ifconfig eth1 | grep 'inet addr' | awk '{ print substr($2,6) }')
+IP=$(ifconfig eth1 | grep 'inet addr' | awk '{ print substr($2,6) }')
 if [[ `hostname` == "web"* ]]; then
-    HOSTNAME="web"
-else
-    HOSTNAME=`hostname`
-fi
-
-if [[ `hostname` == "lb"* ]]; then
-    HOSTNAME="lb"
+  HOSTNAME="web"
+elif [[ `hostname` == "lb"* ]]; then
+  HOSTNAME="lb"
 else
     HOSTNAME=`hostname`
 fi
