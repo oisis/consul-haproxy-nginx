@@ -1,4 +1,4 @@
-## Setup Consul to manage web servers(Nginx) with LoadBalancer(HAProxy)
+## Setup Consul to manage web servers(Nginx) with LoadBalancers(HAProxy/Nginx)
 
 ### Requirements:
 - Vagrant 1.8.*
@@ -13,17 +13,24 @@
 example:
 ```vagrant up lb```
 
-### Create K/V for HAProxy with curl
-```/usr/bin/curl -X PUT -d '4096' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/maxconn```
+### Consul UI access:
+```http://172.20.20.31:8500```
 
-```/usr/bin/curl -X PUT -d '5s' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/timeout-connect```
+### Access to services with HAProxy loadbalancer:
 
-```/usr/bin/curl -X PUT -d '50s' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/timeout-client```
+* Stats:
+```http://172.20.20.11:1936```
 
-```/usr/bin/curl -X PUT -d '50s' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/timeout-server```
+* HTTP acccess to services:
+```http://172.20.20.11/ip.html```
 
-```/usr/bin/curl -X PUT -d 'enable' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/stats```
+* HTTPS access to backend services:
+```https://172.20.20.11/ip.html```
 
-```/usr/bin/curl -X PUT -d '5s' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/refresh```
+### Access to services with Nginx loadbalancer:
 
-```/usr/bin/curl -X PUT -d '/' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/uri```
+* HTTP acccess to services:
+```http://172.20.20.12/ip.html```
+
+* HTTPS access to backend services:
+```https://172.20.20.12/ip.html```
