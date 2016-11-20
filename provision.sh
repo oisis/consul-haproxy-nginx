@@ -85,13 +85,13 @@ if [[ `hostname` == "lb" ]]; then
   docker run -d --name haproxy -p 80:80 -p 1936:1936 -p 443:443 --restart unless-stopped \
     -v /root/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro \
     -v /root/haproxy/haproxy.pem:/usr/local/etc/haproxy/cert.pem:ro haproxy:1.6.9-alpine
-  /usr/bin/curl -X PUT -d '4096' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/maxconn
-  /usr/bin/curl -X PUT -d '5s' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/timeout-connect
-  /usr/bin/curl -X PUT -d '50s' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/timeout-client
-  /usr/bin/curl -X PUT -d '50s' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/timeout-server
-  /usr/bin/curl -X PUT -d 'enable' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/stats
-  /usr/bin/curl -X PUT -d '5s' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/refresh
-  /usr/bin/curl -X PUT -d '/' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/uri
+  /usr/bin/curl -s -X PUT -d '4096' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/maxconn
+  /usr/bin/curl -s -X PUT -d '5s' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/timeout-connect
+  /usr/bin/curl -s -X PUT -d '50s' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/timeout-client
+  /usr/bin/curl -s -X PUT -d '50s' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/timeout-server
+  /usr/bin/curl -s -X PUT -d 'enable' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/stats
+  /usr/bin/curl -s -X PUT -d '5s' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/refresh
+  /usr/bin/curl -s -X PUT -d '/' http://127.0.0.1:8500/v1/kv/prod/portal/haproxy/uri
 fi
 
 # Setup LoadBalancer Nginx
