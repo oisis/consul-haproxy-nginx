@@ -74,7 +74,7 @@ if [[ `hostname` == "lb" ]]; then
   cp /vagrant/provision/haproxy.ctmpl /root/haproxy/
   cp /vagrant/provision/haproxy.cfg /root/haproxy/
   cp /vagrant/provision/consul-template-haproxy.hcl /root/haproxy/
-  /bin/sed -i "s/IPADDRESS/$IP/g" /root/consul/consul-web.json
+  /bin/sed -i "s/IPADDRESS/$IP/g" /root/consul/consul-lb.json
   openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /root/haproxy/haproxy.key \
   -out /root/haproxy/haproxy.crt -subj "/C=PL/ST=Mazowieckie/L=Warszawa/O=COMEORG/OU=IT/CN=172.20.20.11"
   cat /root/haproxy/haproxy.crt /root/haproxy/haproxy.key > /root/haproxy/haproxy.pem
@@ -91,7 +91,7 @@ if [[ `hostname` == "lbn" ]]; then
   cp /vagrant/provision/nginx.ctmpl /root/nginx/
   cp /vagrant/provision/nginx.conf /root/nginx/
   cp /vagrant/provision/consul-template-nginx.hcl /root/consul-template/
-  /bin/sed -i "s/IPADDRESS/$IP/g" /root/consul/consul-web.json
+  /bin/sed -i "s/IPADDRESS/$IP/g" /root/consul/consul-lb.json
   openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /root/nginx/nginx.key \
     -out /root/nginx/nginx.crt -subj "/C=PL/ST=Mazowieckie/L=Warszawa/O=COMEORG/OU=IT/CN=172.20.20.12"
   /usr/bin/consul-template -config /root/consul-template/consul-template-nginx.hcl 2>&1 >/dev/null &
