@@ -5,14 +5,34 @@
   "encrypt": "iFfOAlZuCafYotVi5dpcVA==",
   "advertise_addr": "172.20.20.11",
   "datacenter": "vbox1",
-  "service": {
-    "name": "lb",
-    "port": 80,
-    "check": {
-      "http": "http://localhost",
-      "interval": "10s"
+  "services": [
+    {
+      "id": "lb_http",
+      "name": "lb_http",
+      "tags": [
+        "http",
+        "lb"
+      ],
+      "port": 80,
+      "check": {
+        "http": "http://localhost",
+        "interval": "10s"
+      }
+    },
+    {
+      "id": "lb_https",
+      "name": "lb_https",
+      "tags": [
+        "https",
+        "lb"
+      ],
+      "port": 443,
+      "check": {
+        "https": "https://localhost",
+        "interval": "10s"
+      }
     }
-  },
+  ],
   "checks": [
     {
       "id": "check_cpu_utilization",
