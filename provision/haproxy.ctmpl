@@ -1,14 +1,21 @@
 global
   maxconn {{key_or_default "prod/portal/haproxy/maxconn" "4096"}}
+  tune.ssl.default-dh-param 2048
 
 defaults
   mode http
+  option forwardfor
+  option http-server-close
   timeout connect {{key_or_default "prod/portal/haproxy/timeout-connect" "5s"}}
   timeout client {{key_or_default "prod/portal/haproxy/timeout-client" "50s"}}
   timeout server {{key_or_default "prod/portal/haproxy/timeout-server" "50s"}}
 
 listen http-in
-  bind *:80{{range service "web"}}
+  bind *:80{{range service "http"}}
+  server {{.Node}} {{.Address}}:{{.Port}}{{end}}
+
+listen https-in
+  bind *:443 ssl crt /usr/local/etc/haproxy/cert.pem{{range service "https"}}
   server {{.Node}} {{.Address}}:{{.Port}}{{end}}
 
 listen stats
